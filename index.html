@@ -1,0 +1,328 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+<meta charset="UTF-8">
+<meta name="viewport" content="width=device-width, initial-scale=1.0">
+<title>Nyra's 5th Birthday!</title>
+<style>
+  @import url('https://fonts.googleapis.com/css2?family=Baloo+2:wght@400;600;800&family=Nunito:wght@400;600;700&display=swap');
+
+  * { margin: 0; padding: 0; box-sizing: border-box; }
+
+  body {
+    min-height: 100vh;
+    background: linear-gradient(135deg, #fce4f3 0%, #e8f4ff 50%, #fff9e6 100%);
+    display: flex;
+    align-items: flex-start;
+    justify-content: center;
+    font-family: 'Nunito', sans-serif;
+    overflow-y: auto;
+    overflow-x: hidden;
+    position: relative;
+    padding: 20px 0 30px;
+  }
+
+  canvas { position: fixed; top: 0; left: 0; width: 100%; height: 100%; pointer-events: none; z-index: 1; }
+
+  .card {
+    background: rgba(255,255,255,0.92);
+    backdrop-filter: blur(10px);
+    border-radius: 32px;
+    padding: 24px 28px 28px;
+    max-width: 440px;
+    width: 92%;
+    box-shadow: 0 20px 60px rgba(200,120,200,0.18), 0 4px 20px rgba(0,0,0,0.06);
+    text-align: center;
+    position: relative;
+    z-index: 10;
+    border: 2.5px solid rgba(255,180,230,0.4);
+  }
+
+  .top-emoji {
+    font-size: 2.4rem;
+    margin-bottom: 2px;
+    display: block;
+    animation: bounce 2s ease-in-out infinite;
+  }
+  @keyframes bounce {
+    0%,100% { transform: translateY(0); }
+    50%      { transform: translateY(-6px); }
+  }
+
+  .youre-invited {
+    font-family: 'Baloo 2', cursive;
+    font-size: 0.85rem;
+    font-weight: 600;
+    letter-spacing: 3px;
+    text-transform: uppercase;
+    color: #c77dd7;
+    margin-bottom: 2px;
+  }
+
+  h1 {
+    font-family: 'Baloo 2', cursive;
+    font-size: 2.4rem;
+    font-weight: 800;
+    line-height: 1.1;
+    background: linear-gradient(135deg, #f06292, #ba68c8, #64b5f6);
+    -webkit-background-clip: text;
+    -webkit-text-fill-color: transparent;
+    background-clip: text;
+    margin-bottom: 2px;
+  }
+
+  .age-badge {
+    display: inline-block;
+    background: linear-gradient(135deg, #f9a8d4, #c084fc);
+    color: white;
+    font-family: 'Baloo 2', cursive;
+    font-size: 0.9rem;
+    font-weight: 700;
+    padding: 3px 16px;
+    border-radius: 999px;
+    margin-bottom: 12px;
+    letter-spacing: 1px;
+  }
+
+  .divider {
+    width: 60px;
+    height: 3px;
+    background: linear-gradient(90deg, #f9a8d4, #c084fc, #93c5fd);
+    border-radius: 999px;
+    margin: 0 auto 12px;
+  }
+
+  .details-box {
+    background: linear-gradient(135deg, #fdf4ff 0%, #eff6ff 100%);
+    border-radius: 18px;
+    padding: 10px 16px;
+    margin-bottom: 12px;
+    border: 1.5px solid rgba(192,132,252,0.2);
+    width: 100%;
+  }
+
+  .detail-row {
+    display: flex;
+    align-items: flex-start;
+    gap: 10px;
+    padding: 6px 0;
+    text-align: left;
+    width: 100%;
+  }
+  .detail-row:not(:last-child) {
+    border-bottom: 1px dashed rgba(192,132,252,0.25);
+  }
+  .detail-icon {
+    font-size: 1.2rem;
+    flex-shrink: 0;
+    margin-top: 2px;
+  }
+  .detail-text { flex: 1; min-width: 0; }
+  .detail-label {
+    font-size: 0.68rem;
+    font-weight: 700;
+    text-transform: uppercase;
+    letter-spacing: 1.5px;
+    color: #a855f7;
+    display: block;
+    margin-bottom: 2px;
+  }
+  .detail-value {
+    font-size: 0.92rem;
+    font-weight: 700;
+    color: #3b0764;
+  }
+
+  .activity-pills {
+    display: flex;
+    gap: 6px;
+    flex-wrap: wrap;
+    margin-top: 6px;
+  }
+  .activity-pill {
+    display: inline-flex;
+    align-items: center;
+    gap: 5px;
+    background: linear-gradient(135deg, #fdf4ff, #eff6ff);
+    border: 1.5px solid rgba(192,132,252,0.3);
+    border-radius: 999px;
+    padding: 5px 10px;
+    font-size: 0.78rem;
+    font-weight: 700;
+    color: #7c3aed;
+    white-space: nowrap;
+  }
+  .activity-pill .icon { font-size: 0.95rem; }
+
+  .snack-note {
+    font-size: 0.82rem;
+    color: #7c6ea0;
+    margin-bottom: 12px;
+    font-weight: 600;
+  }
+
+  .rsvp-box {
+    background: linear-gradient(135deg, #f9a8d4, #c084fc);
+    border-radius: 16px;
+    padding: 14px 16px;
+    color: white;
+  }
+  .rsvp-title {
+    font-family: 'Baloo 2', cursive;
+    font-size: 1rem;
+    font-weight: 800;
+    letter-spacing: 2px;
+    text-transform: uppercase;
+    margin-bottom: 3px;
+  }
+  .rsvp-sub {
+    font-size: 0.78rem;
+    opacity: 0.9;
+    font-weight: 600;
+    margin-bottom: 10px;
+  }
+  .rsvp-buttons {
+    display: flex;
+    gap: 10px;
+    justify-content: center;
+    flex-wrap: wrap;
+  }
+  .rsvp-btn {
+    display: inline-flex;
+    align-items: center;
+    gap: 6px;
+    background: white;
+    border-radius: 999px;
+    padding: 8px 18px;
+    font-family: 'Nunito', sans-serif;
+    font-size: 0.85rem;
+    font-weight: 800;
+    text-decoration: none;
+    transition: transform 0.15s, box-shadow 0.15s;
+    box-shadow: 0 2px 8px rgba(0,0,0,0.12);
+  }
+  .rsvp-btn:hover { transform: translateY(-2px); box-shadow: 0 4px 14px rgba(0,0,0,0.18); }
+  .rsvp-btn.form { color: #a855f7; }
+  .rsvp-btn.msg  { color: #ec4899; }
+  .rsvp-phone {
+    margin-top: 8px;
+    font-size: 0.82rem;
+    font-weight: 700;
+    opacity: 0.95;
+  }
+
+  .footer-emojis {
+    margin-top: 14px;
+    font-size: 1.3rem;
+    letter-spacing: 4px;
+  }
+</style>
+</head>
+<body>
+
+<canvas id="bubbleCanvas"></canvas>
+
+<div class="card">
+  <span class="top-emoji">🎂</span>
+  <p class="youre-invited">You're Invited!</p>
+  <h1>Nyra's Birthday!</h1>
+  <div class="age-badge">🎉 She's turning 5! 🎉</div>
+
+  <div class="divider"></div>
+
+  <div class="details-box">
+    <div class="detail-row">
+      <span class="detail-icon">📅</span>
+      <div class="detail-text">
+        <span class="detail-label">Date</span>
+        <span class="detail-value">Sunday, June 21, 2025</span>
+      </div>
+    </div>
+    <div class="detail-row">
+      <span class="detail-icon">⏰</span>
+      <div class="detail-text">
+        <span class="detail-label">Time</span>
+        <span class="detail-value">10:00 AM – 12:00 PM</span>
+      </div>
+    </div>
+    <div class="detail-row">
+      <span class="detail-icon">📍</span>
+      <div class="detail-text">
+        <span class="detail-label">Location</span>
+        <span class="detail-value">Valleyridge Park (Elephant Park)<br>
+          <span style="font-size:0.82rem;font-weight:600;color:#6b21a8;">2524 Valleyridge Drive, Oakville, L6M 5H4</span>
+        </span>
+      </div>
+    </div>
+    <div class="detail-row">
+      <span class="detail-icon">🎪</span>
+      <div class="detail-text">
+        <span class="detail-label">Entertainment</span>
+        <div class="activity-pills">
+          <div class="activity-pill"><span class="icon">🫧</span> Bubble Show</div>
+          <div class="activity-pill"><span class="icon">🎈</span> Balloon Twisting</div>
+        </div>
+      </div>
+    </div>
+  </div>
+
+  <p class="snack-note">🥕🍓 Snacks for kids & parents provided! 🍇🥒</p>
+
+  <div class="rsvp-box">
+    <div class="rsvp-title">RSVP</div>
+    <div class="rsvp-sub">Kindly reply by June 15 — pick what's easiest for you!</div>
+    <div class="rsvp-buttons">
+      <a class="rsvp-btn form" href="https://forms.gle/qYbUSg4hp2FvWTww9" target="_blank">📋 RSVP via Form</a>
+    </div>
+    <div class="rsvp-phone">or text me at +1 (647) 917-7507</div>
+  </div>
+
+  <div class="footer-emojis">🎈🫧🌟🎀🎊</div>
+</div>
+
+<script>
+  const canvas = document.getElementById('bubbleCanvas');
+  const ctx = canvas.getContext('2d');
+  let bubbles = [];
+  const colors = ['rgba(249,168,212,', 'rgba(192,132,252,', 'rgba(147,197,253,', 'rgba(253,224,71,', 'rgba(134,239,172,'];
+
+  function resize() { canvas.width = window.innerWidth; canvas.height = window.innerHeight; }
+  resize();
+  window.addEventListener('resize', resize);
+
+  function spawnBubble() {
+    const r = 10 + Math.random() * 35;
+    bubbles.push({
+      x: Math.random() * canvas.width,
+      y: canvas.height + r,
+      r, speed: 0.4 + Math.random() * 0.8,
+      drift: (Math.random() - 0.5) * 0.5,
+      color: colors[Math.floor(Math.random() * colors.length)],
+      opacity: 0.15 + Math.random() * 0.35
+    });
+  }
+
+  function draw() {
+    ctx.clearRect(0, 0, canvas.width, canvas.height);
+    bubbles.forEach((b, i) => {
+      b.y -= b.speed; b.x += b.drift;
+      ctx.beginPath();
+      ctx.arc(b.x, b.y, b.r, 0, Math.PI * 2);
+      const g = ctx.createRadialGradient(b.x - b.r*0.3, b.y - b.r*0.3, b.r*0.1, b.x, b.y, b.r);
+      g.addColorStop(0, b.color + (b.opacity + 0.2) + ')');
+      g.addColorStop(0.6, b.color + b.opacity + ')');
+      g.addColorStop(1, b.color + '0.05)');
+      ctx.fillStyle = g; ctx.fill();
+      ctx.beginPath(); ctx.arc(b.x, b.y, b.r, 0, Math.PI * 2);
+      ctx.strokeStyle = b.color + '0.5)'; ctx.lineWidth = 1; ctx.stroke();
+      if (b.y + b.r < 0) bubbles.splice(i, 1);
+    });
+    if (Math.random() < 0.04) spawnBubble();
+    requestAnimationFrame(draw);
+  }
+
+  for (let i = 0; i < 12; i++) { spawnBubble(); bubbles[i].y = Math.random() * canvas.height; }
+  draw();
+</script>
+</body>
+</html>
